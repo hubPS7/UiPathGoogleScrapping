@@ -1,0 +1,478 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_Categories="CatAndSubCat.xlsx" this:Main.in_CategoriesSheet="CategoriesAndSubCategories" this:Main.in_WorldCities="WorldCities.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_Config" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_Categories" Type="InArgument(x:String)" />
+    <x:Property Name="in_CategoriesSheet" Type="InArgument(x:String)" />
+    <x:Property Name="in_WorldCities" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1240,4510</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="24">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.CV</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="22">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="FetchCategoryWiseDetails" sap:VirtualizedContainerService.HintSize="1071,4345" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="OutWorldCitiesDt" />
+      <Variable x:TypeArguments="sd:DataTable" Name="OutFilterWorldCity" />
+      <Variable x:TypeArguments="x:String" Name="CountryName" />
+      <Variable x:TypeArguments="sd:DataTable" Name="CategoryDataTable" />
+      <Variable x:TypeArguments="x:String" Name="Category" />
+      <Variable x:TypeArguments="s:String[]" Name="ArraySubCategories" />
+      <Variable x:TypeArguments="sd:DataTable" Name="CategoryAndSubCategoryDataTable" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsUpdateResultElementExist" />
+      <Variable x:TypeArguments="x:String" Name="CityName" />
+      <Variable x:TypeArguments="sd:DataTable" Name="SaveCategoryDt" />
+      <Variable x:TypeArguments="x:String" Name="State" />
+      <Variable x:TypeArguments="x:String" Name="LblCategories" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="ListArrayCities" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="ListArrayCategories" />
+      <Variable x:TypeArguments="x:String" Name="DeleteVar" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="ListArraySubCategories" />
+      <Variable x:TypeArguments="x:String" Name="StrSubCategories" />
+      <Variable x:TypeArguments="s:String[]" Name="SubCategories" />
+      <Variable x:TypeArguments="sd:DataTable" Name="OutFilterCountryAndState" />
+      <Variable x:TypeArguments="x:String" Name="StrFilterCityPlusState" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign sap:VirtualizedContainerService.HintSize="1029,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[CountryName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["India"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[OutWorldCitiesDt]" DisplayName="Reading Country, State, and City Excel Records" sap:VirtualizedContainerService.HintSize="1029,87" sap2010:WorkflowViewState.IdRef="ReadRange_2" SheetName="Sheet1" WorkbookPath="[in_WorldCities]" />
+    <ui:FilterDataTable DataTable="[OutWorldCitiesDt]" DisplayName="Filter Data Table On Country" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="1029,59" sap2010:WorkflowViewState.IdRef="FilterDataTable_1" OutputDataTable="[OutFilterWorldCity]" SelectColumnsMode="Keep">
+      <ui:FilterDataTable.Filters>
+        <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+          <ui:FilterOperationArgument BooleanOperator="And" Operator="EQ">
+            <ui:FilterOperationArgument.Column>
+              <InArgument x:TypeArguments="x:String">["Country"]</InArgument>
+            </ui:FilterOperationArgument.Column>
+            <ui:FilterOperationArgument.Operand>
+              <InArgument x:TypeArguments="x:String">[CountryName]</InArgument>
+            </ui:FilterOperationArgument.Operand>
+          </ui:FilterOperationArgument>
+        </scg:List>
+      </ui:FilterDataTable.Filters>
+      <ui:FilterDataTable.SelectColumns>
+        <scg:List x:TypeArguments="InArgument" Capacity="4">
+          <InArgument x:TypeArguments="x:String">["State"]</InArgument>
+          <InArgument x:TypeArguments="x:String">["Country"]</InArgument>
+          <InArgument x:TypeArguments="x:String">["CityNames"]</InArgument>
+        </scg:List>
+      </ui:FilterDataTable.SelectColumns>
+    </ui:FilterDataTable>
+    <Assign DisplayName="Converting Datatable to List" sap:VirtualizedContainerService.HintSize="1029,60" sap2010:WorkflowViewState.IdRef="Assign_21">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[ListArrayCities]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)">[( From row in OutFilterWorldCity.AsEnumerable() Select Convert.Tostring(row(“CityNames”)) ).ToList()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InputDialog DisplayName="User need to select City" sap:VirtualizedContainerService.HintSize="1029,92" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="Please Select an Item" Options="[ListArrayCities.ToArray]" Title="Select Option">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[CityName]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <Assign sap:VirtualizedContainerService.HintSize="1029,60" sap2010:WorkflowViewState.IdRef="Assign_30">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[StrFilterCityPlusState]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[CityName + ", " + OutFilterWorldCity.Rows(0)("State").ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[CategoryDataTable]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="1029,87" sap2010:WorkflowViewState.IdRef="ReadRange_3" SheetName="[in_CategoriesSheet]" WorkbookPath="[in_Categories]">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ReadRange>
+    <Assign sap:VirtualizedContainerService.HintSize="1029,60" sap2010:WorkflowViewState.IdRef="Assign_22">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[ListArrayCategories]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)">[( From row in CategoryDataTable.AsEnumerable() Select Convert.Tostring(row("Categories")) ).ToList()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InputDialog DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="1029,92" sap2010:WorkflowViewState.IdRef="InputDialog_3" IsPassword="False" Label="Please select an Item" Options="[ListArrayCategories.ToArray()]" Title="Select Category">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[Category]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <ui:FilterDataTable DataTable="[CategoryDataTable]" DisplayName="Filter Data Table" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="1029,59" sap2010:WorkflowViewState.IdRef="FilterDataTable_2" OutputDataTable="[CategoryAndSubCategoryDataTable]" SelectColumnsMode="Keep">
+      <ui:FilterDataTable.Filters>
+        <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+          <ui:FilterOperationArgument BooleanOperator="And" Operator="EQ">
+            <ui:FilterOperationArgument.Column>
+              <InArgument x:TypeArguments="x:String">["Categories"]</InArgument>
+            </ui:FilterOperationArgument.Column>
+            <ui:FilterOperationArgument.Operand>
+              <InArgument x:TypeArguments="x:String">[Category]</InArgument>
+            </ui:FilterOperationArgument.Operand>
+          </ui:FilterOperationArgument>
+        </scg:List>
+      </ui:FilterDataTable.Filters>
+      <ui:FilterDataTable.SelectColumns>
+        <scg:List x:TypeArguments="InArgument" Capacity="4">
+          <InArgument x:TypeArguments="x:String">["SubCategories"]</InArgument>
+        </scg:List>
+      </ui:FilterDataTable.SelectColumns>
+    </ui:FilterDataTable>
+    <Assign sap:VirtualizedContainerService.HintSize="1029,60" sap2010:WorkflowViewState.IdRef="Assign_27">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[ListArraySubCategories]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)">[( From row in CategoryAndSubCategoryDataTable.AsEnumerable() Select Convert.Tostring(row("SubCategories")) ).ToList()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InputDialog DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="1029,92" sap2010:WorkflowViewState.IdRef="InputDialog_4" IsPassword="False" Label="Please change accordingly, but seperate with COMMA" Options="[ListArraySubCategories.ToArray]" Title="All SubCategories">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[StrSubCategories]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <Assign sap:VirtualizedContainerService.HintSize="1029,60" sap2010:WorkflowViewState.IdRef="Assign_26">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[SubCategories]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[StrSubCategories.ToString().Split(",".ToCharArray())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="1029,2649" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[SubCategories]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="SubCategory" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="993,2515" sap2010:WorkflowViewState.IdRef="Sequence_52">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:OpenBrowser CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="951,2423" sap2010:WorkflowViewState.IdRef="OpenBrowser_4" Url="https://www.google.com/maps">
+              <ui:OpenBrowser.Body>
+                <ActivityAction x:TypeArguments="x:Object">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                  </ActivityAction.Argument>
+                  <Sequence sap:VirtualizedContainerService.HintSize="917,2322" sap2010:WorkflowViewState.IdRef="Sequence_62">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="x:Int32" Name="i" />
+                    </Sequence.Variables>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign sap:VirtualizedContainerService.HintSize="875,60" sap2010:WorkflowViewState.IdRef="Assign_31">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Int32">[i]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <ui:InterruptibleDoWhile DisplayName="Do While" sap:VirtualizedContainerService.HintSize="875,2130" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_3">
+                      <ui:InterruptibleDoWhile.Body>
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="839,1965" sap2010:WorkflowViewState.IdRef="Sequence_61">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Sequence DisplayName="Whole Category Search Block" sap:VirtualizedContainerService.HintSize="797,1773" sap2010:WorkflowViewState.IdRef="Sequence_60">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If Condition="[i &gt; 0]" sap:VirtualizedContainerService.HintSize="755,373" sap2010:WorkflowViewState.IdRef="If_7">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If.Then>
+                                <Sequence sap:VirtualizedContainerService.HintSize="376,226" sap2010:WorkflowViewState.IdRef="Sequence_64">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:TypeInto AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" ClickBeforeTyping="True" DisplayName="Type Into 'INPUT  searchboxinput'" EmptyField="True" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="TypeInto_7" Text="[SubCategory.ToString + &quot; Classes &quot; + StrFilterCityPlusState]">
+                                    <ui:TypeInto.Target>
+                                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5cd4db22-a2bf-499c-b732-239a32be160b" InformativeScreenshot="8b2d0bb30d48f60be4ab263228be9c39" Selector="&lt;webctrl id='searchbox' tag='DIV' /&gt;" WaitForReady="COMPLETE">
+                                        <ui:Target.TimeoutMS>
+                                          <InArgument x:TypeArguments="x:Int32" />
+                                        </ui:Target.TimeoutMS>
+                                      </ui:Target>
+                                    </ui:TypeInto.Target>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:TypeInto>
+                                </Sequence>
+                              </If.Then>
+                              <If.Else>
+                                <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into 'INPUT  searchboxinput'" EmptyField="True" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="TypeInto_8" Text="[SubCategory.ToString + &quot; &quot; + StrFilterCityPlusState]">
+                                  <ui:TypeInto.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5cd4db22-a2bf-499c-b732-239a32be160b" InformativeScreenshot="8ef2c6cb7c3e7d6177c8104f119e5474" Selector="&lt;webctrl id='searchboxinput' tag='INPUT' /&gt;" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:TypeInto.Target>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:TypeInto>
+                              </If.Else>
+                            </If>
+                            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'BUTTON  searchbox-searc...'" sap:VirtualizedContainerService.HintSize="755,106" sap2010:WorkflowViewState.IdRef="Click_6" KeyModifiers="None" MouseButton="BTN_LEFT">
+                              <ui:Click.CursorPosition>
+                                <ui:CursorPosition Position="Center">
+                                  <ui:CursorPosition.OffsetX>
+                                    <InArgument x:TypeArguments="x:Int32" />
+                                  </ui:CursorPosition.OffsetX>
+                                  <ui:CursorPosition.OffsetY>
+                                    <InArgument x:TypeArguments="x:Int32" />
+                                  </ui:CursorPosition.OffsetY>
+                                </ui:CursorPosition>
+                              </ui:Click.CursorPosition>
+                              <ui:Click.Target>
+                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="e587b009-d0a5-4c77-885f-129e4589ddca" InformativeScreenshot="95c5e518c6392b7f30b06201297b0f44" Selector="&lt;webctrl id='searchbox-searchbutton' tag='BUTTON' /&gt;" WaitForReady="COMPLETE">
+                                  <ui:Target.TimeoutMS>
+                                    <InArgument x:TypeArguments="x:Int32" />
+                                  </ui:Target.TimeoutMS>
+                                </ui:Target>
+                              </ui:Click.Target>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:Click>
+                            <ui:UiElementExists DisplayName="Element Exists 'INPUT  section-query-on...'" Exists="[IsUpdateResultElementExist]" sap:VirtualizedContainerService.HintSize="755,106" sap2010:WorkflowViewState.IdRef="UiElementExists_3">
+                              <ui:UiElementExists.Target>
+                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="c967b68c-26df-449e-b9c1-559990e6ca02" InformativeScreenshot="3108b9bffd9b0e4d48d5cd180997740b" Selector="&lt;html app='chrome.exe' title='*Google Maps' /&gt;&lt;webctrl id='section-query-on-pan-checkbox-id' tag='INPUT' /&gt;" WaitForReady="COMPLETE">
+                                  <ui:Target.TimeoutMS>
+                                    <InArgument x:TypeArguments="x:Int32" />
+                                  </ui:Target.TimeoutMS>
+                                </ui:Target>
+                              </ui:UiElementExists.Target>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:UiElementExists>
+                            <If Condition="[IsUpdateResultElementExist.Equals(True)]" sap:VirtualizedContainerService.HintSize="755,253" sap2010:WorkflowViewState.IdRef="If_8">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If.Then>
+                                <ui:Check AlterIfDisabled="{x:Null}" ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" Action="Check" DisplayName="Check 'INPUT  section-query-on...'" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="Check_7">
+                                  <ui:Check.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="672dec95-06c9-4f2a-ad62-abd49cec9490" InformativeScreenshot="df48e7188fe009d4795589be8e438404" Selector="&lt;html app='chrome.exe' title='*Google Maps' /&gt;&lt;webctrl id='section-query-on-pan-checkbox-id' tag='INPUT' /&gt;" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:Check.Target>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:Check>
+                              </If.Then>
+                            </If>
+                            <Sequence DisplayName="Data Scraping" sap:VirtualizedContainerService.HintSize="755,683" sap2010:WorkflowViewState.IdRef="Sequence_59">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="Extracting Categories" sap:VirtualizedContainerService.HintSize="452,591" sap2010:WorkflowViewState.IdRef="BrowserScope_10" InformativeScreenshot="758565a8b7a6d51bd57dacebe0cd2dee" Selector="&lt;html title='*Google Maps' /&gt;">
+                                <ui:BrowserScope.Body>
+                                  <ActivityAction x:TypeArguments="x:Object">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                    </ActivityAction.Argument>
+                                    <Sequence sap:VirtualizedContainerService.HintSize="418,445" sap2010:WorkflowViewState.IdRef="Sequence_58">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,353" sap2010:WorkflowViewState.IdRef="Sequence_57">
+                                        <Sequence.Variables>
+                                          <Variable x:TypeArguments="sd:DataTable" Default="[New System.Data.DataTable]" Name="ExtractDataTable" />
+                                        </Sequence.Variables>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:ExtractData ContinueOnError="True" DataTable="[ExtractDataTable]" DelayBetweenPagesMS="4000" DisplayName="Extract Structured Data 'DIV'" ExtractMetadata="&lt;extract&gt;&lt;column exact='1' name='VendorDetails' attr='text'&gt;&lt;webctrl tag='div' class='section-layout section-scrollbox scrollable-y scrollable-show section-layout-flex-vertical' idx='1'/&gt;&lt;webctrl tag='div' class='section-layout section-scrollbox scrollable-y scrollable-show section-layout-flex-vertical' idx='1'/&gt;&lt;webctrl tag='div' class='section-result'/&gt;&lt;/column&gt;&lt;/extract&gt;" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="ExtractData_9" MaxNumberOfResults="50000" NextLinkSelector="&lt;webctrl parentid='n7lv7yjyC35__section-pagination-button-next' tag='SPAN' /&gt;" SimulateClick="True">
+                                          <ui:ExtractData.Target>
+                                            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="1e17c92b-789f-42a0-a41f-5166998f4f50" InformativeScreenshot="55cd765a64c1bdc02caf6140046a51c2" Selector="&lt;webctrl css-selector='body&amp;gt;jsl&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div' parentid='pane' tag='DIV' /&gt;" WaitForReady="COMPLETE">
+                                              <ui:Target.TimeoutMS>
+                                                <InArgument x:TypeArguments="x:Int32" />
+                                              </ui:Target.TimeoutMS>
+                                            </ui:Target>
+                                          </ui:ExtractData.Target>
+                                        </ui:ExtractData>
+                                        <ui:AppendRange DataTable="[ExtractDataTable]" DisplayName="Append Range" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="AppendRange_1" SheetName="[Category.ToString.Trim]" WorkbookPath="C:\\Export\ExportVendorData.xlsx" />
+                                      </Sequence>
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:BrowserScope.Body>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:BrowserScope>
+                            </Sequence>
+                          </Sequence>
+                          <Assign sap:VirtualizedContainerService.HintSize="797,60" sap2010:WorkflowViewState.IdRef="Assign_32">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Int32">[i]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Int32">[i+1]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </Sequence>
+                      </ui:InterruptibleDoWhile.Body>
+                      <ui:InterruptibleDoWhile.Condition>
+                        <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="i &lt; 2" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
+                      </ui:InterruptibleDoWhile.Condition>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:InterruptibleDoWhile>
+                  </Sequence>
+                </ActivityAction>
+              </ui:OpenBrowser.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:OpenBrowser>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Send Hotkey" sap:VirtualizedContainerService.HintSize="1029,116" sap2010:WorkflowViewState.IdRef="SendHotkey_3" Key="f4" KeyModifiers="Alt" SpecialKey="True">
+      <ui:SendHotkey.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" Id="5f55bd47-18e4-440d-bba0-0cd8d2e438bc">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:SendHotkey.Target>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:SendHotkey>
+  </Sequence>
+</Activity>

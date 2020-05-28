@@ -1,0 +1,11 @@
+﻿( From row in OutFilterWorldCity.AsEnumerable() Select Convert.Tostring(row(“CityNames”)) ).ToList()
+
+
+( From row in OutFilterWorldCity.Select() Where row(“CityNames”).Equals(CityNames) Select r) ).ToList()
+
+StrSubCategories.ToString().Split(",".ToCharArray())
+
+
+LOB
+<webctrl id='DlgFrame*' tag='IFRAME' />
+<webctrl css-selector='body&gt;form&gt;div&gt;div&gt;div&gt;div&gt;div&gt;div&gt;table&gt;tbody&gt;tr&gt;td&gt;div&gt;div&gt;div&gt;div&gt;div&gt;span&gt;div&gt;div&gt;div&gt;div&gt;div&gt;div&gt;div&gt;div&gt;table&gt;tbody&gt;tr&gt;td&gt;div&gt;table&gt;tbody&gt;tr&gt;td&gt;span&gt;select' tableRow='12' tag='SELECT' id='ctl00_ctl33_g_c5137cad_e18e_4852_9fd0_5569754c6c48_FormControl0_V1_I1_D12' />
